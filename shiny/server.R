@@ -113,20 +113,13 @@ shinyServer(
         geom_line()
     })
 
-    currentYears <- NULL
-
     observe({
       if(is.null(filteredData())){
         return(NULL)
       }
-      rmYears <- setdiff(currentYears, unique(filteredData()$year))
-      newYears <- setdiff(unique(filteredData()$year), currentYears)
-
-      leafletProxy("map", data = filteredData() %>%
-                     filter(year %in% newYears)) %>%
-        removeMarker(paste0("year_", rmYears)) %>%
+      leafletProxy("map", data = filteredData()) %>%
+        removeMarker() %>%
         addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ colour,
-                         layerId = ~ paste0("year_", year),
                          stroke = FALSE, fillOpacity = 0.5, radius = 9)
     })
 
