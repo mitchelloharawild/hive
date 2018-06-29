@@ -31,7 +31,8 @@ shinyServer(
       allgenus <- unique(data$genus)
       selectInput("in_genus", "Filter genus",
                   choices = allgenus,
-                  selected = allgenus)
+                  selected = allgenus,
+                  multiple = TRUE)
     })
 
     filteredData <- reactive({
