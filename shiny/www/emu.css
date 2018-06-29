@@ -6,3 +6,48 @@
 .content-wrapper {
   height:0;
 }
+
+/* bee colour scheme */
+/* reference: https://www.schemecolor.com/cute-honey-bee-color-scheme.php */
+
+.skin-blue .main-header .navbar {
+  background-color: #FCD615;
+}
+.skin-blue .main-header .navbar .nav > li > a {
+  color: #3A3637;
+}
+.skin-blue .main-header .navbar .sidebar-toggle {
+  color: #3A3637;
+}
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+  background-color: #FCB43A;
+}
+.skin-blue .main-header .logo {
+  background-color: #F3C622;
+  color: #3A3637;
+  border-bottom: 0 solid transparent;
+}
+.skin-blue .main-header .logo:hover {
+  background-color: #FCB43A;
+}
+.skin-blue .wrapper,
+.skin-blue .main-sidebar,
+.skin-blue .left-side {
+  background-color: #23212C;
+}
+
+/* slider */
+.js-irs-0 .irs-bar {
+  border-top-color: #F3C622;
+  border-bottom-color: #F3C622;
+}
+.js-irs-0 .irs-bar-edge {
+  border-color: #F3C622;
+}
+.js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {
+  background: #F3C622;
+}
+.irs-from, .irs-to, .irs-single {
+  background: #F3C622;
+  color: #3A3637;
+}

@@ -1,0 +1,37 @@
+---
+title: "Bee Adventurous"
+author: "Stephanie Kobakian,  <br> Earo Wang, <br> Mitchell O'Hara-Wild"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["bees.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, eval = FALSE, message = FALSE, warning = FALSE)
+```
+
+# Why bee worried?
+
+Over the past 10 years there has been a lot of buzz about bee populations
+Introduced species of bees are also a worry on an island nation
+
+---
+
+# Different species, like any other animal, thrive and suffer in different circumstances.
+And some have been less than welcome:
+
+---
+
+Exploring Tasmania
+
+Before 1992 the bumbus did not exist in Tasmania, it was smuggled from New Zealand, and has expanded
+
+[]
+
+---

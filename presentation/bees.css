@@ -1,0 +1,62 @@
+@import url(https://fonts.googleapis.com/css?family=Arimo:400,700,400italic);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
+
+body { font-family: 'Arimo'; }
+h1, h2, h3 {
+  font-family: 'Arimo';
+  font-weight: normal;
+}
+a, a > code {
+  color: #F3C615;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.footnote {
+  position: absolute;
+  bottom: 3em;
+  padding-right: 4em;
+  font-size: 50%;
+}
+
+.remark-code-line-highlighted     { background-color: #3A3637 ; }
+
+.remark-slide-content > h1 {
+  font-weight: normal;
+  margin-top: 10px;
+  margin-left: -00px;
+}
+
+.title-slide .remark-slide-number {
+  display: none;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  color: #23212C;
+}
+
+.inverse {
+  background-color: #3A3637;
+  color: #FCD615;
+}
+
+.inverse h1, .inverse h2, .inverse h3 {
+  color: #FCB43A;
+}
+
+table {
+  margin: auto;
+  font-size: 90%;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+
+.title-slide h1 {
+  color: #FCD615;
+}
+.title-slide h2, .title-slide h3 {
+  color: #FCD615; 
+font-weight: light;
+  line-height: 1.5em;
+}
