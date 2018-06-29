@@ -5,7 +5,7 @@ library(leaflet)
 
 shinyServer(
   function(input, output, session) {
-    data <- read_csv("bee_data.csv") %>%
+    data <- readr::read_csv("bee_data.csv") %>%
       filter(!(genus%in%c("Ctenoplectra","Nomada", "")))
 
     output$map <- renderLeaflet({
