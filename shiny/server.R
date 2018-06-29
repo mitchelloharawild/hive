@@ -7,18 +7,20 @@ library(ggimage)
 
 shinyServer(
   function(input, output, session) {
+    pal <- colorFactor("Paired", domain = NULL)
     data <- readr::read_csv("bee_data.csv") %>%
       filter(!(genus%in%c("Ctenoplectra","Nomada", "")),
-             !is.na(genus))
+             !is.na(genus)) %>%
+      mutate(colour = pal(genus))
     year_range <- range(data$year, na.rm = TRUE)
 
-    pal <- colorFactor("Paired", domain = NULL)
 
     output$map <- renderLeaflet({
       leaflet(options = leafletOptions(minZoom = 5)) %>%
         addProviderTiles("Esri.WorldTopoMap") %>%
         setView(lng = 137, lat = -28, zoom = 5) %>%
-        setMaxBounds(101.3379, -9.102097, 172.6611, -44.11914)
+        setMaxBounds(101.3379, -9.102097, 172.6611, -44.11914) %>%
+        addLegend(pal = pal, values = ~ genus, data = data)
     })
 
     output$ui_year_slider <- renderUI({
@@ -111,16 +113,40 @@ shinyServer(
         geom_line()
     })
 
+    currentYears <- NULL
+
     observe({
       if(is.null(filteredData())){
         return(NULL)
       }
-      leafletProxy("map", data = filteredData()) %>%
-        clearControls() %>%
-        clearMarkers() %>%
-        addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ pal(genus),
-                         stroke = FALSE, fillOpacity = 0.5, radius = 5) %>%
-        addLegend(pal = pal, values = ~ genus)
+      rmYears <- setdiff(currentYears, unique(filteredData()$year))
+      newYears <- setdiff(unique(filteredData()$year), currentYears)
+
+      leafletProxy("map", data = filteredData() %>%
+                     filter(year %in% newYears)) %>%
+        removeMarker(paste0("year_", rmYears)) %>%
+        addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ colour,
+                         layerId = ~ paste0("year_", year),
+                         stroke = FALSE, fillOpacity = 0.5, radius = 9)
+    })
+
+    observeEvent(input$demo_tasmania, {
+      leafletProxy("map") %>%
+        flyTo(146.4423, -42.22242, 8)
+
+      anim_range <- c(1977, 1992) - 1
+      observe({
+        if(anim_range[2] >= year_range[2]){
+          return()
+        }
+        else{
+          invalidateLater(millis = 2000)
+          new_range <- anim_range
+          new_range[2] <- new_range[2] + 3
+          anim_range <<- new_range
+          updateSliderInput(session, "in_year", value = anim_range)
+        }
+      })
     })
   }
 )

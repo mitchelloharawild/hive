@@ -7,7 +7,7 @@ shinyUI(
   dashboardPage(
     dashboardHeader(
       title = "useR2018 Datathon ALA",
-      tags$li(class = "dropdown", actionLink("btn_template", span(icon("download"), " Tasmania"))),
+      tags$li(class = "dropdown", actionLink("demo_tasmania", span(icon("download"), " Tasmania"))),
       tags$li(class = "dropdown", a(href="https://github.com/mitchelloharawild/emu", target="_blank", span(icon("github"), " GitHub")))
     ),
     dashboardSidebar(
