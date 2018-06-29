@@ -2,6 +2,7 @@ library(shiny)
 library(ggplot2)
 library(purrr)
 library(leaflet)
+library(dplyr)
 
 shinyServer(
   function(input, output, session) {
