@@ -56,7 +56,7 @@ shinyServer(
 
     plotData <- reactive({
       if(is.null(input$map_bounds)){
-        return(filteredData())
+        return(NULL)
       }
       filteredData() %>%
         filter(latitude <= input$map_bounds$north,
@@ -67,6 +67,9 @@ shinyServer(
     })
 
     output$plot_season <- renderPlot({
+      if(is.null(plotData())){
+        return(NULL)
+      }
       plotData() %>%
         count(month) %>%
         ggplot(aes(x=month, y=n)) +
@@ -74,6 +77,9 @@ shinyServer(
     })
 
     output$plot_trend <- renderPlot({
+      if(is.null(plotData())){
+        return(NULL)
+      }
       plotData() %>%
         count(year) %>%
         ggplot(aes(x=year, y=n)) +
