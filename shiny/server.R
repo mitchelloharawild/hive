@@ -118,7 +118,7 @@ shinyServer(
         return(NULL)
       }
       leafletProxy("map", data = filteredData()) %>%
-        removeMarker() %>%
+        clearMarkers() %>%
         addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ colour,
                          stroke = FALSE, fillOpacity = 0.5, radius = 9)
     })
