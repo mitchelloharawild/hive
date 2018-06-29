@@ -92,7 +92,7 @@ shinyServer(
         clearControls() %>%
         clearMarkers() %>%
         addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ pal(genus),
-                         stroke = FALSE, fillOpacity = 0.5) %>%
+                         stroke = FALSE, fillOpacity = 0.5, radius = 5) %>%
         addLegend(pal = pal, values = ~ genus)
     })
   }
