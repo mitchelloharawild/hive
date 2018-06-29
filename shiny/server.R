@@ -2,11 +2,14 @@ library(shiny)
 library(ggplot2)
 library(purrr)
 library(leaflet)
+library(dplyr)
 
 shinyServer(
   function(input, output, session) {
-    data <- read_csv("bee_data.csv") %>%
+    data <- readr::read_csv("bee_data.csv") %>%
       filter(!(genus%in%c("Ctenoplectra","Nomada", "")))
+
+    pal <- colorFactor("Dark2", domain = NULL)
 
     output$map <- renderLeaflet({
       leaflet(options = leafletOptions(minZoom = 5)) %>%
@@ -28,12 +31,24 @@ shinyServer(
       allgenus <- unique(data$genus)
       selectInput("in_genus", "Filter genus",
                   choices = allgenus,
-                  selected = allgenus)
+                  selected = allgenus,
+                  multiple = TRUE)
     })
 
-    observeEvent(input$map1_marker_click, {
-      leafletProxy("map", session) %>%
-        removeMarker(input$map1_marker_click$id)
+    filteredData <- reactive({
+      if(is.null(input$in_year)){
+        return(data)
+      }
+      data %>%
+        filter(genus %in% input$in_genus,
+               year >= input$in_year[1],
+               year <= input$in_year[2])
+    })
+
+    observe({
+      leafletProxy("map", data = filteredData()) %>%
+        clearMarkers() %>%
+        addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ pal(genus))
     })
   }
 )
