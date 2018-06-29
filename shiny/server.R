@@ -12,7 +12,7 @@ shinyServer(
              !is.na(genus))
     year_range <- range(data$year, na.rm = TRUE)
 
-    pal <- colorFactor("Dark2", domain = NULL)
+    pal <- colorFactor("Paired", domain = NULL)
 
     output$map <- renderLeaflet({
       leaflet(options = leafletOptions(minZoom = 5)) %>%
@@ -22,7 +22,7 @@ shinyServer(
     })
 
     output$ui_year_slider <- renderUI({
-      sliderInput("in_year", "Year slider",
+      sliderInput("in_year", "Year",
                   min = year_range[1],
                   max = year_range[2],
                   value = year_range,
@@ -32,15 +32,40 @@ shinyServer(
 
     output$ui_genus_filter <- renderUI({
       allgenus <- unique(data$genus)
-      selectInput("in_genus", "Filter genus",
+      selectInput("in_genus", "Genus",
                   choices = allgenus,
                   selected = allgenus,
                   multiple = TRUE)
     })
 
+    output$ui_animBtn <- renderUI({
+      if(is.null(input$btn_anim_toggle) || input$btn_anim_toggle %% 2){
+        disp <-
+          box(
+            "Play",
+            width = 4,
+            background = "green",
+            offset = 1
+          )
+      }
+      else{
+        disp <-
+          box(
+            "Stop",
+            width = 4,
+            background = "red",
+            offset = 1
+          )
+      }
+      actionLink(
+        "btn_anim_toggle",
+        disp
+      )
+    })
+
     filteredData <- reactive({
       if(is.null(input$in_year)){
-        return(data)
+        return(NULL)
       }
       out <- data %>%
         filter(genus %in% input$in_genus)
@@ -83,11 +108,13 @@ shinyServer(
       plotData() %>%
         count(year) %>%
         ggplot(aes(x=year, y=n)) +
-        geom_line() +
-        geom_emoji(image = "1f41d")
+        geom_line()
     })
 
     observe({
+      if(is.null(filteredData())){
+        return(NULL)
+      }
       leafletProxy("map", data = filteredData()) %>%
         clearControls() %>%
         clearMarkers() %>%
