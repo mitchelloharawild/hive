@@ -7,13 +7,14 @@ library(dplyr)
 shinyServer(
   function(input, output, session) {
     data <- readr::read_csv("bee_data.csv") %>%
-      filter(!(genus%in%c("Ctenoplectra","Nomada", "")))
+      filter(!(genus%in%c("Ctenoplectra","Nomada", "")),
+             !is.na(genus))
 
     pal <- colorFactor("Dark2", domain = NULL)
 
     output$map <- renderLeaflet({
       leaflet(options = leafletOptions(minZoom = 5)) %>%
-        addTiles() %>%
+        addProviderTiles("Esri.WorldTopoMap") %>%
         setView(lng = 137, lat = -28, zoom = 5) %>%
         setMaxBounds(101.3379, -9.102097, 172.6611, -44.11914)
     })
@@ -24,6 +25,7 @@ shinyServer(
                   min = year_range[1],
                   max = year_range[2],
                   value = year_range,
+                  animate = animationOptions(interval = 500),
                   ticks = FALSE)
     })
 
@@ -48,7 +50,10 @@ shinyServer(
     observe({
       leafletProxy("map", data = filteredData()) %>%
         clearMarkers() %>%
-        addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ pal(genus))
+        clearControls() %>%
+        addCircleMarkers(lng = ~ longitude, lat = ~ latitude, color = ~ pal(genus),
+                         stroke = FALSE, fillOpacity = 0.5) %>%
+        addLegend(pal = pal, values = ~ genus)
     })
   }
 )
