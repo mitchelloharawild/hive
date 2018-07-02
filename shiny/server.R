@@ -128,6 +128,8 @@ shinyServer(
       leafletProxy("map") %>%
         flyTo(146.4423, -42.22242, 8)
 
+      updateSelectInput(session, "in_genus", selected = "Bombus")
+
       anim_range <- c(1977, 1992) - 1
       observe({
         if(anim_range[2] >= year_range[2]){
