@@ -10,7 +10,8 @@ shinyServer(
     pal <- colorFactor("Paired", domain = NULL)
     data <- readr::read_csv("bee_data.csv") %>%
       filter(!(genus%in%c("Ctenoplectra","Nomada", "")),
-             !is.na(genus)) %>%
+             !is.na(genus),
+             locationQuality) %>%
       mutate(colour = pal(genus))
     year_range <- range(data$year, na.rm = TRUE)
 
