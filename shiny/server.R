@@ -16,7 +16,7 @@ shinyServer(
 
 
     output$map <- renderLeaflet({
-      leaflet(options = leafletOptions(minZoom = 5)) %>%
+      leaflet(options = leafletOptions(minZoom = 4)) %>%
         addProviderTiles("Esri.WorldTopoMap") %>%
         setView(lng = 137, lat = -28, zoom = 5) %>%
         setMaxBounds(101.3379, -9.102097, 172.6611, -44.11914) %>%
