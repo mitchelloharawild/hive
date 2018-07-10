@@ -66,6 +66,12 @@ shinyServer(
       )
     })
 
+
+    val_info <- reactiveVal(p("Hi!"))
+    output$ui_info <- renderUI({
+      div(class = "info_panel", val_info())
+    })
+
     filteredData <- reactive({
       if(is.null(input$in_year)){
         return(NULL)

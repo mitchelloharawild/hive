@@ -20,7 +20,8 @@ shinyUI(
         uiOutput("ui_animBtn")
       ),
       br(),
-      uiOutput("ui_genus_filter")
+      uiOutput("ui_genus_filter"),
+      uiOutput("ui_info")
     ),
     dashboardBody(
       # includeScript("https://d3js.org/d3-hexbin.v0.2.min.js"),

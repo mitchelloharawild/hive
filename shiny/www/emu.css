@@ -7,6 +7,11 @@
   height:0;
 }
 
+.info_panel {
+  padding: 12px 15px 0px 15px;
+  white-space: normal;
+}
+
 /* bee colour scheme */
 /* reference: https://www.schemecolor.com/cute-honey-bee-color-scheme.php */
 
