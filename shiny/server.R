@@ -67,7 +67,12 @@ shinyServer(
     })
 
 
-    val_info <- reactiveVal(p("Hi!"))
+    val_info <- reactiveVal(tagList(
+      # p("Bzzz! Welcome to the hive!"),
+      # p("We've been bee-zy finding all our honey friends."),
+      p("You can zoom and drag the map to explore all the hives."),
+      p("Also check out the stats on the right, they automatically update to"))
+    )
     output$ui_info <- renderUI({
       div(class = "info_panel", val_info())
     })
@@ -133,6 +138,10 @@ shinyServer(
     observeEvent(input$demo_tasmania, {
       leafletProxy("map") %>%
         flyTo(146.4423, -42.22242, 8)
+
+      val_info(tagList(
+        p("You clicked on Tasmania!")
+      ))
 
       updateSelectInput(session, "in_genus", selected = "Bombus")
 
