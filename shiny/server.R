@@ -37,7 +37,7 @@ shinyServer(
       allgenus <- unique(data$genus)
       selectInput("in_genus", "Genus",
                   choices = allgenus,
-                  selected = allgenus,
+                  selected = c("Apis", "Amegilla"),
                   multiple = TRUE)
     })
 
