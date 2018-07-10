@@ -74,7 +74,13 @@ shinyServer(
       p("Also check out the stats on the right, they automatically update to"))
     )
     output$ui_info <- renderUI({
-      div(class = "info_panel", val_info())
+      div(class = "info_panel",
+        box(
+          val_info(),
+          title = span(icon("info"), "Information"),
+          width = 12
+        )
+      )
     })
 
     filteredData <- reactive({

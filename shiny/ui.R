@@ -11,7 +11,7 @@ shinyUI(
       tags$li(class = "dropdown", a(href="https://github.com/mitchelloharawild/emu", target="_blank", span(icon("github"), " GitHub")))
     ),
     dashboardSidebar(
-      # sidebarSearchForm("animalSearch")
+      width = "300px",
       uiOutput("ui_year_slider"),
       fluidRow(
         column(8, sliderInput("in_anim_interval",
