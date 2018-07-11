@@ -91,7 +91,10 @@ shinyServer(
                   min = year_range[1],
                   max = year_range[2],
                   value = year_range,
-                  animate = animationOptions(interval = 500),
+                  animate = animationOptions(interval = 500,
+                                             playButton = span("Start animation", icon("play")),
+                                             pauseButton = span("Stop animation", icon("pause"))
+                                             ),
                   ticks = FALSE)
     })
 
@@ -102,32 +105,6 @@ shinyServer(
                   selected = c("Apis", "Amegilla"),
                   multiple = TRUE)
     })
-
-    output$ui_animBtn <- renderUI({
-      if(is.null(input$btn_anim_toggle) || input$btn_anim_toggle %% 2){
-        disp <-
-          box(
-            "Play",
-            width = 4,
-            background = "green",
-            offset = 1
-          )
-      }
-      else{
-        disp <-
-          box(
-            "Stop",
-            width = 4,
-            background = "red",
-            offset = 1
-          )
-      }
-      actionLink(
-        "btn_anim_toggle",
-        disp
-      )
-    })
-
 
     val_info <- reactiveVal(tagList(
       # p("Bzzz! Welcome to the hive!"),
@@ -229,8 +206,8 @@ shinyServer(
       demo_build(times = list(c(1977, 1992), c(1977, 1992) + 6, year_range[2]),
                  info = c("You clicked on Tasmania!", "but wait!"),
                  genus = c("Bombus", "Apis"),
-                 position = list(c(146.4423, -42.22242),c(136.4423, -42.22242)),
-                 zoom=c(8, 7),
+                 position = list(c(146.4423, -42.22242),c(133.5, -28)),
+                 zoom=c(8, 5),
                  delay=c(2000, 2000),
                  step = c(3, 1),
                  stretch = c(TRUE, FALSE))

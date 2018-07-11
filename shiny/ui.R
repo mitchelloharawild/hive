@@ -13,14 +13,8 @@ shinyUI(
     dashboardSidebar(
       width = "300px",
       uiOutput("ui_year_slider"),
-      fluidRow(
-        column(8, sliderInput("in_anim_interval",
-                              min = 200, max = 1000, step = 100, value = 500,
-                              label = "Interval")),
-        uiOutput("ui_animBtn")
-      ),
-      br(),
       uiOutput("ui_genus_filter"),
+      hr(),
       uiOutput("ui_info")
     ),
     dashboardBody(

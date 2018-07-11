@@ -11,6 +11,19 @@
   color: #333333;
 }
 
+.slider-animate-button {
+  opacity: 1;
+}
+
+.play i {
+  color: #F3C622;
+}
+
+.slider-animate-container {
+  margin-top: 0;
+  font-size: 20px;
+}
+
 /* bee colour scheme */
 /* reference: https://www.schemecolor.com/cute-honey-bee-color-scheme.php */
 
