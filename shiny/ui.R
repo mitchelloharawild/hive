@@ -29,8 +29,9 @@ shinyUI(
           leafletOutput("map", width = "100%", height = "100%")
       ),
       div(class="col-sm-4", style = "height:100%; background-color:#23212C;",
-          plotOutput("plot_trend"),
-          plotOutput("plot_season")
+          plotOutput("plot_trend", height = "600px"),
+          br(),
+          plotOutput("plot_season", height = "300px")
       )
     )
   )

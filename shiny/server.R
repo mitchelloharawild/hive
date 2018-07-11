@@ -5,10 +5,30 @@ library(leaflet)
 library(dplyr)
 library(ggimage)
 
+theme_bee <- function() {
+  theme(
+    axis.title = element_text(colour = "white", face = "bold", size =  18),
+    axis.ticks = element_line(colour = "white"),
+    axis.text = element_text(colour = "white", size = 14),
+    panel.grid.major = element_line(colour = "white"),
+    panel.grid.minor = element_line(colour = "transparent"),
+    panel.background = element_rect(fill = "#23212C"),
+    plot.background = element_rect(fill = "transparent", colour = NA)
+  )
+}
+
+ele_data <- readr::read_csv("elevation_data.csv")
+ele_data_dist <- group_by(ele_data, latitude, longitude) %>%
+  summarise(elevation = mean(elevation))
+bee <- readr::read_csv("bee_data.csv")
+bee_data <- bee %>%
+  left_join(ele_data_dist, by = c("latitude", "longitude")) %>%
+  filter(elevation > -15)
+
 shinyServer(
   function(input, output, session) {
     pal <- colorFactor("Paired", domain = NULL)
-    data <- readr::read_csv("bee_data.csv") %>%
+    data <- bee_data %>%
       filter(!(genus%in%c("Ctenoplectra","Nomada", "")),
              !is.na(genus),
              locationQuality) %>%
@@ -170,18 +190,30 @@ shinyServer(
       plotData() %>%
         count(month) %>%
         ggplot(aes(x=month, y=n)) +
-        geom_col()
-    })
+        geom_col(fill = "#FCD615") +
+        scale_x_continuous(
+          breaks = seq(1, 12, by = 2),
+          labels = c("Jan", "Mar", "May", "Jul", "Sep", "Nov")
+        ) +
+        xlab("Month") +
+        ylab("Occurences") +
+        theme_bee()
+    }, bg = "transparent")
 
     output$plot_trend <- renderPlot({
       if(is.null(plotData())){
         return(NULL)
       }
       plotData() %>%
-        count(year) %>%
-        ggplot(aes(x=year, y=n)) +
-        geom_line()
-    })
+        ggplot(aes(x = genus, y = elevation, fill = colour)) +
+        geom_violin(colour = "white") +
+        scale_fill_identity() +
+        scale_colour_identity() +
+        xlab("Genus") +
+        ylab("Elevation") +
+        coord_flip() +
+        theme_bee()
+    }, bg = "transparent")
 
     observe({
       if(is.null(filteredData())){
