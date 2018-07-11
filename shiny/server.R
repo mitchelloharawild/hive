@@ -16,11 +16,9 @@ shinyServer(
     year_range <- range(data$year, na.rm = TRUE)
 
 
-    demo_anim <- function(start_time, end_time = year_range[2], info, genus, position, zoom, delay, step, stretch = FALSE){
+    demo_anim <- function(start_time, end_time = year_range[2], genus, position, zoom, delay, step, stretch = FALSE){
       leafletProxy("map") %>%
         flyTo(position[1], position[2], zoom)
-
-      val_info(info)
 
       updateSelectInput(session, "in_genus", selected = genus)
 
@@ -47,15 +45,16 @@ shinyServer(
     vis_btn_next <- reactiveVal(FALSE)
     demo_build <- function(times, info, genus, position, zoom, delay, step, stretch = FALSE){
       i <- 0
-      browser()
       vis_btn_next(TRUE)
       observe({
-        input$btn_next_demo
+        input$btn_demo_next
         i <<- i + 1
-        if(i == length(times) - 1){
+        if(i == length(times)){
           vis_btn_next(FALSE)
+          return()
         }
-        demo_anim(times[i], max(times[[i+1]]), info[[i]], genus[[i]], position[[i]], zoom[[i]], delay[[i]], step[[i]], stretch[[i]])
+        val_info(info[[i]])
+        demo_anim(times[i], max(times[[i+1]]), genus[[i]], position[[i]], zoom[[i]], delay[[i]], step[[i]], stretch[[i]])
       })
     }
 
@@ -120,19 +119,19 @@ shinyServer(
       div(class = "info_panel",
         box(
           val_info(),
-          uiOutput("ui_demo_ops"),
           title = span(icon("info"), "Information"),
           width = 12
+        ),
+        actionLink(
+          "btn_demo_next",
+          uiOutput("ui_demo_ops")
         )
       )
     })
 
     output$ui_demo_ops <- renderUI({
       if(vis_btn_next()){
-        actionLink(
-          "btn_demo_next",
-          box("Next", width = 12)
-        )
+        box("Next", width = 12)
       }
     })
 
@@ -195,8 +194,14 @@ shinyServer(
     })
 
     observeEvent(input$demo_tasmania, {
-      demo_build(list(c(1977, 1992), year_range[2]), "You clicked on Tasmania!", "Bombus", list(c(146.4423, -42.22242)),
-                 zoom=8, delay=2000, step = 3, stretch = TRUE)
+      demo_build(times = list(c(1977, 1992), c(1977, 1992) + 6, year_range[2]),
+                 info = c("You clicked on Tasmania!", "but wait!"),
+                 genus = c("Bombus", "Apis"),
+                 position = list(c(146.4423, -42.22242),c(136.4423, -42.22242)),
+                 zoom=c(8, 7),
+                 delay=c(2000, 2000),
+                 step = c(3, 1),
+                 stretch = c(TRUE, FALSE))
     })
   }
 )
