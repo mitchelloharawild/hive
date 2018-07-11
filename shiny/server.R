@@ -16,6 +16,49 @@ shinyServer(
     year_range <- range(data$year, na.rm = TRUE)
 
 
+    demo_anim <- function(start_time, end_time = year_range[2], info, genus, position, zoom, delay, step, stretch = FALSE){
+      leafletProxy("map") %>%
+        flyTo(position[1], position[2], zoom)
+
+      val_info(info)
+
+      updateSelectInput(session, "in_genus", selected = genus)
+
+      anim_range <- start_time[[1]] - 1
+      observe({
+        if(anim_range[2] >= end_time[[1]]){
+          return()
+        }
+        else{
+          invalidateLater(millis = delay)
+          new_range <- anim_range
+          if(stretch){
+            new_range[2] <- new_range[2] + step
+          }
+          else{
+            new_range <- new_range + step
+          }
+          anim_range <<- new_range
+          updateSliderInput(session, "in_year", value = anim_range)
+        }
+      })
+    }
+
+    vis_btn_next <- reactiveVal(FALSE)
+    demo_build <- function(times, info, genus, position, zoom, delay, step, stretch = FALSE){
+      i <- 0
+      browser()
+      vis_btn_next(TRUE)
+      observe({
+        input$btn_next_demo
+        i <<- i + 1
+        if(i == length(times) - 1){
+          vis_btn_next(FALSE)
+        }
+        demo_anim(times[i], max(times[[i+1]]), info[[i]], genus[[i]], position[[i]], zoom[[i]], delay[[i]], step[[i]], stretch[[i]])
+      })
+    }
+
     output$map <- renderLeaflet({
       leaflet(options = leafletOptions(minZoom = 4)) %>%
         addProviderTiles("Esri.WorldTopoMap") %>%
@@ -77,10 +120,20 @@ shinyServer(
       div(class = "info_panel",
         box(
           val_info(),
+          uiOutput("ui_demo_ops"),
           title = span(icon("info"), "Information"),
           width = 12
         )
       )
+    })
+
+    output$ui_demo_ops <- renderUI({
+      if(vis_btn_next()){
+        actionLink(
+          "btn_demo_next",
+          box("Next", width = 12)
+        )
+      }
     })
 
     filteredData <- reactive({
@@ -142,28 +195,8 @@ shinyServer(
     })
 
     observeEvent(input$demo_tasmania, {
-      leafletProxy("map") %>%
-        flyTo(146.4423, -42.22242, 8)
-
-      val_info(tagList(
-        p("You clicked on Tasmania!")
-      ))
-
-      updateSelectInput(session, "in_genus", selected = "Bombus")
-
-      anim_range <- c(1977, 1992) - 1
-      observe({
-        if(anim_range[2] >= year_range[2]){
-          return()
-        }
-        else{
-          invalidateLater(millis = 2000)
-          new_range <- anim_range
-          new_range[2] <- new_range[2] + 3
-          anim_range <<- new_range
-          updateSliderInput(session, "in_year", value = anim_range)
-        }
-      })
+      demo_build(list(c(1977, 1992), year_range[2]), "You clicked on Tasmania!", "Bombus", list(c(146.4423, -42.22242)),
+                 zoom=8, delay=2000, step = 3, stretch = TRUE)
     })
   }
 )
