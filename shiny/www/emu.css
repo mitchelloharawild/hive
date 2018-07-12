@@ -11,6 +11,14 @@
   color: #333333;
 }
 
+.dropdown-menu {
+  background-color: #F3C622;
+}
+
+.dropdown-menu a{
+  color: #333333;
+}
+
 .slider-animate-button {
   opacity: 1;
 }
