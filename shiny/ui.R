@@ -14,7 +14,8 @@ shinyUI(
               tags$ul(class = "dropdown-menu",
                       tags$li(
                         tags$ul(class = "menu",
-                                tags$li(actionLink("demo_tasmania","Tasmania"))
+                                tags$li(actionLink("demo_tasmania","Tasmania")),
+                                tags$li(actionLink("demo_apis","Bumble Bees"))
                         )
                       )
               )
