@@ -3,7 +3,6 @@ library(ggplot2)
 library(purrr)
 library(leaflet)
 library(dplyr)
-library(ggimage)
 
 theme_bee <- function() {
   theme(
