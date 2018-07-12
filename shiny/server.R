@@ -209,11 +209,12 @@ shinyServer(
                                          We are going to take a look at the genus Bombus,
                                          these are bumble bees, and they didn't land in Tasmania until 1992."),
                                        p("Let's take a peek at their arrival.")),
-                               tagList(p("Bumble bees spread slowly at first, landing in Hobart and adventuring north, 
-                                         then west across the island."))
+                               tagList(p("Bumble bees spread slowly at first, landing in Hobart and adventuring west, then north,
+                                         across the island."),
+                                       p("Our little foreign friends finally arrived on the mainland, Can you spot them?"))
                                ),
                    genus = c("Bombus", "Bombus"),
-                   position = list(c(146.44775390625, -31.0529339857051),c(146.233520507813, -41.0710691308064)),
+                   position = list(c(146.44775390625, -28.01),c(146.233520507813, -41.0710691308064)),
                    zoom=c(5, 7),
                    delay=c(2000, 2000),
                    step = c(3, 1),
@@ -221,7 +222,7 @@ shinyServer(
     })
     
     
-    (input$demo_apis, {
+    observeEvent(input$demo_apis, {
         demo_build(times = list(c(1800, 1940), c(1977, 1992) + 6, year_range[2]),
                    info = list(tagList(p("Many people in Australia like to live close together in large cities.
                                          So do the Apis mellifera."),
@@ -232,8 +233,27 @@ shinyServer(
                                        p("Does the area with the most sightings look like a very populated area of Australia?")
                    )),
                    genus = c("Apis", "Apis"),
-                   position = list(c(146.4423, -47),c(146.4423, -42.22242)),
-                   zoom=c(5, 8),
+                   position = list(c(132.930616736412, -28.01),c(146.4423, -42.22242)),
+                   zoom=c(5, 5),
+                   delay=c(2000, 2000),
+                   step = c(3, 1),
+                   stretch = c(TRUE, TRUE))
+    })
+    
+    observeEvent(input$demo_tasmania, {
+        demo_build(times = list(c(1977, 1990), c(1990,  year_range[2]), year_range[2]),
+                   info = list(tagList(p("You clicked on Tasmania!"),
+                                       p("Located south of Australia's east coast, 
+                                         Tasmania is separated from the mainland by over 200km.
+                                         We are going to take a look at the genus Bombus,
+                                         these are bumble bees, and they didn't land in Tasmania until 1992."),
+                                       p("Let's take a peek at their arrival.")),
+                               tagList(p("Bumble bees spread slowly at first, landing in Hobart and adventuring north, 
+                                         then west across the island."))
+                                        ),
+                   genus = c("Bombus", "Bombus"),
+                   position = list(c(146.44775390625, -31.0529339857051),c(146.233520507813, -41.0710691308064)),
+                   zoom=c(5, 7),
                    delay=c(2000, 2000),
                    step = c(3, 1),
                    stretch = c(TRUE, TRUE))
