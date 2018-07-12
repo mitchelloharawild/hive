@@ -107,10 +107,17 @@ shinyServer(
     })
 
     val_info <- reactiveVal(tagList(
-      # p("Bzzz! Welcome to the hive!"),
-      # p("We've been bee-zy finding all our honey friends."),
-      p("You can zoom and drag the map to explore all the hives."),
-      p("Also check out the stats on the right, they automatically update to"))
+      p("Bzzz! Welcome to the Hive"),
+      p("We've been bee-zy finding all our bee-autiful friends in Australia."),
+      p("You can zoom and drag the map to explore all the hives.
+        Each genus has a special colour, 
+        the dots of this colour on the map show where our ALA explorers have spotted us."),
+      p("If you really want to fly, and know where our bees will be in the sky, check out the elevation plot.
+        This tells you the sea heights where the bees displayed on the map were spotted.
+        It will automatically update when the genus or time range change."),
+      p("You can also see the time of year when the bees were spotted, 
+        remember it may bee all the ALA explorers staying inside that makes bees tricky to spot.")
+      )
     )
     output$ui_info <- renderUI({
       div(class = "info_panel",
@@ -208,12 +215,13 @@ shinyServer(
                                        p("Located south of Australia's east coast, 
                                          Tasmania is separated from the mainland by over 200km.
                                          We are going to take a look at the genus Bombus,
-                                         these are bumble bees, and they didn't land in Tasmania until 1992."),
-                                       p("Let's take a peek at their arrival.")),
-                               tagList(p("Bumble bees spread slowly at first, landing in Hobart and adventuring west, then north,
-                                         across the island."),
-                                       p("Our little foreign friends finally arrived on the mainland, Can you spot them?"))
-                               ),
+                                         these are bumble bees, 
+                                         and they didn't land in Tasmania until 1992."),
+                                       p("Hit Next to take a peek at their arrival.")),
+                               tagList(p("The first Bumble bee landed in Hobart. As the dots show, he wasn't alone for long.
+                                         Bumble bees adventured west into the national park. 
+                                         They then flew north and have continued to spread across the island."),
+                                       p("Our little foreign friends finally arrived on the mainlandin 2018. Can you spot them?"))),
                    genus = c("Bombus", "Bombus"),
                    position = list(c(146.44775390625, -28.01),c(146.233520507813, -41.0710691308064)),
                    zoom=c(5, 7),
@@ -224,7 +232,7 @@ shinyServer(
     
     
     observeEvent(input$demo_apis, {
-        demo_build(times = list(c(1800, 1940), c(1977, 1992) + 6, year_range[2]),
+        demo_build(times = list(c(year_range[1], 1940), c(1977, 1992) + 6, year_range[2]),
                    info = list(tagList(p("Many people in Australia like to live close together in large cities.
                                          So do the Apis mellifera."),
                                        p("Known as the European honey bee, 
@@ -241,20 +249,21 @@ shinyServer(
                    stretch = c(TRUE, TRUE))
     })
     
-    observeEvent(input$demo_tasmania, {
-        demo_build(times = list(c(1977, 1990), c(1990,  year_range[2]), year_range[2]),
-                   info = list(tagList(p("You clicked on Tasmania!"),
-                                       p("Located south of Australia's east coast, 
-                                         Tasmania is separated from the mainland by over 200km.
-                                         We are going to take a look at the genus Bombus,
-                                         these are bumble bees, and they didn't land in Tasmania until 1992."),
-                                       p("Let's take a peek at their arrival.")),
-                               tagList(p("Bumble bees spread slowly at first, landing in Hobart and adventuring north, 
-                                         then west across the island."))
-                                        ),
-                   genus = c("Bombus", "Bombus"),
-                   position = list(c(146.44775390625, -31.0529339857051),c(146.233520507813, -41.0710691308064)),
-                   zoom=c(5, 7),
+    observeEvent(input$demo_brisbane, {
+        demo_build(times = list(c(year_range[1], year_range[2]), c(year_range[1], year_range[2]), year_range[2]),
+                   info = list(tagList(p("Welcome to Brisbane!"),
+                                       p("The third largest city in Australia is home to not only a diverse community of people,
+                                         but also a diverse community of bees."),
+                                       p("The Exoneura genus of bees are found in the Mount Coot-Tha forest, but not in Brisbane city.")),
+                               tagList(p("We can take a look at where any type of bee was located in Brisbane")
+                                  )),
+                   genus = list(c("Exoneura", "Exoneurella"),
+                                c("Exoneura", "Exoneurella",
+                                  "Apis", "Amegilla", "Braunsapis",
+                                  "Bombus", "Tetragonula", "Thyreus",
+                                  "Ceratina", "Xylocopa", "Austroplebeia")),
+                   position = list(c(152.4527, -27.206),c(153.02145, -27.47438)),
+                   zoom=c(8, 11),
                    delay=c(2000, 2000),
                    step = c(3, 1),
                    stretch = c(TRUE, TRUE))
