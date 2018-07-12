@@ -202,16 +202,43 @@ shinyServer(
     })
 
     observeEvent(input$demo_tasmania, {
-      demo_build(times = list(c(1977, 1992), c(1977, 1992) + 6, year_range[2]),
-                 info = c("You clicked on Tasmania!", "but wait!"),
-                 genus = c("Bombus", "Apis"),
-                 position = list(c(146.4423, -42.22242),c(133.5, -28)),
-                 zoom=c(8, 5),
-                 delay=c(2000, 2000),
-                 step = c(3, 1),
-                 stretch = c(TRUE, FALSE))
+        demo_build(times = list(c(1977, 1990), c(1990,  year_range[2]), year_range[2]),
+                   info = list(tagList(p("You clicked on Tasmania!"),
+                                       p("Located south of Australia's east coast, 
+                                         Tasmania is separated from the mainland by over 200km.
+                                         We are going to take a look at the genus Bombus,
+                                         these are bumble bees, and they didn't land in Tasmania until 1992."),
+                                       p("Let's take a peek at their arrival.")),
+                               tagList(p("Bumble bees spread slowly at first, landing in Hobart and adventuring north, 
+                                         then west across the island."))
+                               ),
+                   genus = c("Bombus", "Bombus"),
+                   position = list(c(146.44775390625, -31.0529339857051),c(146.233520507813, -41.0710691308064)),
+                   zoom=c(5, 7),
+                   delay=c(2000, 2000),
+                   step = c(3, 1),
+                   stretch = c(TRUE, TRUE))
     })
-
+    
+    
+    (input$demo_apis, {
+        demo_build(times = list(c(1800, 1940), c(1977, 1992) + 6, year_range[2]),
+                   info = list(tagList(p("Many people in Australia like to live close together in large cities.
+                                         So do the Apis mellifera."),
+                                       p("Known as the European honey bee, 
+                                         they have been found in Australia since the early 1800s.")),
+                               tagList(p("Their numbers in Australia have exploded in the past 80 years, this is likely because they are often found in managed hives."),
+                                       p("You can see that people often located these bees near populations, could this bee due to them belonging to people's hives and homes?"),
+                                       p("Does the area with the most sightings look like a very populated area of Australia?")
+                   )),
+                   genus = c("Apis", "Apis"),
+                   position = list(c(146.4423, -47),c(146.4423, -42.22242)),
+                   zoom=c(5, 8),
+                   delay=c(2000, 2000),
+                   step = c(3, 1),
+                   stretch = c(TRUE, TRUE))
+    })
+    
     output$pos <- renderText({
       paste0(c(input$map_center, input$map_zoom), collapse = ", ")
     })
