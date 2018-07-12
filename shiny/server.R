@@ -211,5 +211,9 @@ shinyServer(
                  step = c(3, 1),
                  stretch = c(TRUE, FALSE))
     })
+
+    output$pos <- renderText({
+      paste0(c(input$map_center, input$map_zoom), collapse = ", ")
+    })
   }
 )

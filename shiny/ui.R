@@ -16,7 +16,8 @@ shinyUI(
       uiOutput("ui_year_slider"),
       uiOutput("ui_genus_filter"),
       hr(),
-      uiOutput("ui_info")
+      uiOutput("ui_info"),
+      textOutput("pos")
     ),
     dashboardBody(
       includeCSS("www/emu.css"),
