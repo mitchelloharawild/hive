@@ -35,12 +35,7 @@ shinyServer(
     year_range <- range(data$year, na.rm = TRUE)
 
 
-    demo_anim <- function(start_time, end_time = year_range[2], genus, position, zoom, delay, step, stretch = FALSE){
-      leafletProxy("map") %>%
-        flyTo(position[1], position[2], zoom)
-
-      updateSelectInput(session, "in_genus", selected = genus)
-
+    demo_anim <- function(start_time, end_time = year_range[2], delay, step, stretch = FALSE){
       anim_range <- start_time[[1]] - 1
       observe({
         if(anim_range[2] >= end_time[[1]]){
@@ -68,12 +63,18 @@ shinyServer(
       observe({
         input$btn_demo_next
         i <<- i + 1
+        if(i > 1){
+          demo_anim(times[i-1], max(times[[i]]), delay[[i-1]], step[[i-1]], stretch[[i-1]])
+        }
         if(i == length(times)){
           vis_btn_next(FALSE)
           return()
         }
         val_info(info[[i]])
-        demo_anim(times[i], max(times[[i+1]]), genus[[i]], position[[i]], zoom[[i]], delay[[i]], step[[i]], stretch[[i]])
+        leafletProxy("map") %>%
+          flyTo(position[[i]][1], position[[i]][2], zoom[[i]])
+        updateSliderInput(session, "in_year", value = times[[i]])
+        updateSelectInput(session, "in_genus", selected = genus[[i]])
       })
     }
 
