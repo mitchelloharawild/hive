@@ -15,11 +15,13 @@ shinyUI(
                       tags$li(
                         tags$ul(class = "menu",
                                 tags$li(actionLink("demo_tasmania","Tasmania")),
+                                tags$li(actionLink("demo_brisbane","Brisbane")),
                                 tags$li(actionLink("demo_apis","Bumble Bees"))
                         )
                       )
               )
       ),
+      tags$li(class = "dropdown", a(href="https://www.ala.org.au", target="_blank", span(icon("paw"), "Data from ALA"))),
       tags$li(class = "dropdown", a(href="https://github.com/mitchelloharawild/hive", target="_blank", span(icon("github"), " GitHub"))),
       tags$li(class = "dropdown notification-menu",
               a(href = "#", class = "dropdown-toggle",
