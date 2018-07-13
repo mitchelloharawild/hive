@@ -21,7 +21,21 @@ shinyUI(
                       )
               )
       ),
-      tags$li(class = "dropdown", a(href="https://github.com/mitchelloharawild/hive", target="_blank", span(icon("github"), " GitHub")))
+      tags$li(class = "dropdown", a(href="https://www.ala.org.au", target="_blank", span(icon("paw"), "Data from ALA"))),
+      tags$li(class = "dropdown", a(href="https://github.com/mitchelloharawild/hive", target="_blank", span(icon("github"), " GitHub"))),
+      tags$li(class = "dropdown notification-menu",
+              a(href = "#", class = "dropdown-toggle",
+                `data-toggle` = "dropdown", icon("users"), "Authors"),
+              tags$ul(class = "dropdown-menu",
+                      tags$li(
+                        tags$ul(class = "menu",
+                                tags$li(a(href="http://twitter.com/mitchoharawild", target="_blank", span(icon("twitter"), "@mitchoharawild"))),
+                                tags$li(a(href="http://twitter.com/earowang", target="_blank", span(icon("twitter"), "@earowang"))),
+                                tags$li(a(href="http://twitter.com/srkobakian", target="_blank", span(icon("twitter"), "@srkobakian")))
+                        )
+                      )
+              )
+      )
     ),
     dashboardSidebar(
       width = "300px",
@@ -37,7 +51,7 @@ shinyUI(
           leafletOutput("map", width = "100%", height = "100%")
       ),
       div(class="col-sm-4", style = "height:100%; background-color:#23212C;",
-          plotOutput("plot_trend", height = "600px"),
+          plotOutput("plot_density", height = "600px"),
           br(),
           plotOutput("plot_season", height = "300px")
       )
