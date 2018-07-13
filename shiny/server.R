@@ -254,8 +254,12 @@ shinyServer(
                    info = list(tagList(p("Welcome to Brisbane!"),
                                        p("The third largest city in Australia is home to not only a diverse community of people,
                                          but also a diverse community of bees."),
-                                       p("The Exoneura genus of bees are found in the Mount Coot-Tha forest, but not in Brisbane city.")),
-                               tagList(p("We can take a look at where any type of bee was located in Brisbane")
+                                       p("The bars show us that not many of the Exoneura and Exoneurella genus of bees are found in Brisbane city.
+                                         They were spotted around and in national parks.")),
+                               tagList(p("We can take a look at where any type of bee was spotted in Brisbane."), 
+                                       p("Each coloured dot represents a different bee found on the map. 
+                                         You can find out the genus represented by each colour by looking at the list at the top of the map."),
+                                       p("Which genus has been spotted the least?")
                                   )),
                    genus = list(c("Exoneura", "Exoneurella"),
                                 c("Exoneura", "Exoneurella",
@@ -263,7 +267,7 @@ shinyServer(
                                   "Bombus", "Tetragonula", "Thyreus",
                                   "Ceratina", "Xylocopa", "Austroplebeia")),
                    position = list(c(152.4527, -27.206),c(153.02145, -27.47438)),
-                   zoom=c(8, 11),
+                   zoom=c(9, 12),
                    delay=c(2000, 2000),
                    step = c(3, 1),
                    stretch = c(TRUE, TRUE))
