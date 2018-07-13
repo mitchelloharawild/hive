@@ -235,13 +235,14 @@ shinyServer(
     observeEvent(input$demo_apis, {
         demo_build(times = list(c(year_range[1], 1940), c(1977, 1992) + 6, year_range[2]),
                    info = list(tagList(p("Many people in Australia like to live close together in large cities.
-                                         So do the Apis mellifera."),
+                                         So do the Apis genus of bees."),
                                        p("Known as the European honey bee,
-                                         they have been found in Australia since the early 1800s.")),
+                                         they have been found in Australia since the early 1800s.
+                                         There are more recorded Apis observations than the other genus of bees, this means they were spotted more.")),
                                tagList(p("Their numbers in Australia have exploded in the past 80 years, this is likely because they are often found in managed hives."),
-                                       p("You can see that people often located these bees near populations, could this bee due to them belonging to people's hives and homes?"),
-                                       p("Does the area with the most sightings look like a very populated area of Australia?")
-                   )),
+                                       p("You can see that people often located these bees near populations, could this bee due to them belonging to people's hives and homes?")
+                                       )
+                               ),
                    genus = c("Apis", "Apis"),
                    position = list(c(132.930616736412, -28.01),c(146.4423, -42.22242)),
                    zoom=c(5, 5),
