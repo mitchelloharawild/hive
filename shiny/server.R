@@ -110,12 +110,12 @@ shinyServer(
       p("Bzzz! Welcome to the Hive"),
       p("We've been bee-zy finding all our bee-autiful friends in Australia."),
       p("You can zoom and drag the map to explore all the hives.
-        Each genus has a special colour, 
+        Each genus has a special colour,
         the dots of this colour on the map show where our ALA explorers have spotted us."),
       p("If you really want to fly, and know where our bees will be in the sky, check out the elevation plot.
         This tells you the sea heights where the bees displayed on the map were spotted.
         It will automatically update when the genus or time range change."),
-      p("You can also see the time of year when the bees were spotted, 
+      p("You can also see the time of year when the bees were spotted,
         remember it may bee all the ALA explorers staying inside that makes bees tricky to spot.")
       )
     )
@@ -217,11 +217,11 @@ shinyServer(
                                        p("Located south of Australia's east coast,
                                          Tasmania is separated from the mainland by over 200km.
                                          We are going to take a look at the genus Bombus,
-                                         these are bumble bees, 
+                                         these are bumble bees,
                                          and they didn't land in Tasmania until 1992."),
                                        p("Hit Next to take a peek at their arrival.")),
                                tagList(p("The first Bumble bee landed in Hobart. As the dots show, he wasn't alone for long.
-                                         Bumble bees adventured west into the national park. 
+                                         Bumble bees adventured west into the national park.
                                          They then flew north and have continued to spread across the island."),
                                        p("Our little foreign friends finally arrived on the mainlandin 2018. Can you spot them?"))),
                    genus = c("Bombus", "Bombus"),
@@ -273,10 +273,6 @@ shinyServer(
                    delay=c(2000, 2000),
                    step = c(3, 1),
                    stretch = c(TRUE, TRUE))
-    })
-
-    output$pos <- renderText({
-      paste0(c(input$map_center, input$map_zoom), collapse = ", ")
     })
   }
 )
