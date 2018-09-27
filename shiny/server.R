@@ -154,7 +154,8 @@ shinyServer(
             year >= input$in_year[1],
             year <= input$in_year[2])
       }
-      out
+      out %>%
+        sample_n(min(NROW(out), 1000))
     })
 
     plotData <- reactive({
