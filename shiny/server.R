@@ -223,7 +223,7 @@ shinyServer(
                                tagList(p("The first Bumble bee landed in Hobart. As the dots show, he wasn't alone for long.
                                          Bumble bees adventured west into the national park.
                                          They then flew north and have continued to spread across the island."),
-                                       p("Our little foreign friends finally arrived on the mainlandin 2018. Can you spot them?"))),
+                                       p("Our little foreign friends finally arrived on the mainland in 2018. Can you spot them?"))),
                    genus = c("Bombus", "Bombus"),
                    position = list(c(146.44775390625, -28.01),c(146.233520507813, -41.0710691308064)),
                    zoom=c(5, 7),
@@ -258,8 +258,8 @@ shinyServer(
                                          but also a diverse community of bees."),
                                        p("The bars show us that not many of the Exoneura and Exoneurella genus of bees are found in Brisbane city.
                                          They were spotted around and in national parks.")),
-                               tagList(p("We can take a look at where any type of bee was spotted in Brisbane."), 
-                                       p("Each coloured dot represents a different bee found on the map. 
+                               tagList(p("We can take a look at where any type of bee was spotted in Brisbane."),
+                                       p("Each coloured dot represents a different bee found on the map.
                                          You can find out the genus represented by each colour by looking at the list at the top of the map."),
                                        p("Which genus has been spotted the least?")
                                   )),
