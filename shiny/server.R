@@ -35,47 +35,69 @@ shinyServer(
     year_range <- range(data$year, na.rm = TRUE)
 
 
+    anim_range <- reactiveVal(NULL)
+    anim_trigger <- reactiveVal(FALSE)
     demo_anim <- function(start_time, end_time = year_range[2], delay, step, stretch = FALSE){
-      anim_range <- start_time[[1]] - 1
-      observe({
-        if(anim_range[2] >= end_time[[1]]){
-          return()
-        }
-        else{
-          invalidateLater(millis = delay)
-          new_range <- anim_range
-          if(stretch){
-            new_range[2] <- new_range[2] + step
-          }
-          else{
-            new_range <- new_range + step
-          }
-          anim_range <<- new_range
-          updateSliderInput(session, "in_year", value = anim_range)
-        }
-      })
+      anim_range(start_time[[1]] - 1)
+      anim_trigger(!anim_trigger())
     }
 
+    observe({
+      anim_trigger()
+      isolate(.anim_range <- anim_range())
+      if(is.null(.anim_range)){
+        return()
+      }
+      if(.anim_range[2] >= max(demo_par()$times[[demo_pos()]])[[1]]){
+        return()
+      }
+      else{
+        invalidateLater(millis = demo_par()$delay[[demo_pos()-1]])
+        new_range <- .anim_range
+        if(demo_par()$stretch[[demo_pos()-1]]){
+          new_range[2] <- new_range[2] + demo_par()$step[[demo_pos()-1]]
+        }
+        else{
+          new_range <- new_range + demo_par()$step[[demo_pos()-1]]
+        }
+        anim_range(new_range)
+        updateSliderInput(session, "in_year", value = new_range)
+      }
+    })
+
+
     vis_btn_next <- reactiveVal(FALSE)
+    demo_par <- reactiveVal(list())
+    demo_pos <- reactiveVal(NULL)
+
+    observeEvent(input$btn_demo_next, {
+      demo_pos(demo_pos() + 1)
+    })
+
+    observeEvent(demo_pos(), {
+      req(demo_pos())
+      i <- demo_pos()
+      if(i > 1){
+        demo_anim(demo_par()$times[i-1], max(demo_par()$times[[i]]),
+                  demo_par()$delay[[i-1]], demo_par()$step[[i-1]],
+                  demo_par()$stretch[[i-1]])
+      }
+      if(i == length(demo_par()$times)){
+        vis_btn_next(FALSE)
+        return()
+      }
+      val_info(demo_par()$info[[i]])
+      leafletProxy("map") %>%
+        flyTo(demo_par()$position[[i]][1], demo_par()$position[[i]][2], demo_par()$zoom[[i]])
+      updateSliderInput(session, "in_year", value = demo_par()$times[[i]])
+      updateSelectInput(session, "in_genus", selected = demo_par()$genus[[i]])
+    })
+
     demo_build <- function(times, info, genus, position, zoom, delay, step, stretch = FALSE){
+      demo_par(as.list(environment()))
       i <- 0
       vis_btn_next(TRUE)
-      observe({
-        input$btn_demo_next
-        i <<- i + 1
-        if(i > 1){
-          demo_anim(times[i-1], max(times[[i]]), delay[[i-1]], step[[i-1]], stretch[[i-1]])
-        }
-        if(i == length(times)){
-          vis_btn_next(FALSE)
-          return()
-        }
-        val_info(info[[i]])
-        leafletProxy("map") %>%
-          flyTo(position[[i]][1], position[[i]][2], zoom[[i]])
-        updateSliderInput(session, "in_year", value = times[[i]])
-        updateSelectInput(session, "in_genus", selected = genus[[i]])
-      })
+      demo_pos(1L)
     }
 
     output$map <- renderLeaflet({
